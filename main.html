@@ -1,0 +1,1111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Leo Ng — Electrical Engineering + Computer Science</title>
+<meta name="description" content="Portfolio of an Electrical Engineering and Computer Science student building embedded systems, hardware and software.">
+
+<!-- ============================================================
+     EASY-EDIT GUIDE
+     1. Your name / tagline / links  -> search "EDIT: HERO"
+     2. Project content              -> search "EDIT: PROJECT DATA" (JS)
+     3. About text                   -> search "EDIT: ABOUT"
+     4. Contact links (email/CV etc) -> search "EDIT: CONTACT"
+     5. Colors / fonts               -> search "EDIT: TOKENS" (CSS :root)
+     6. Project images               -> add files to assets/images/ and set
+        each project's "image" path in EDIT: PROJECT DATA (JS)
+     7. Resume                       -> add assets/resume.pdf (the Resume
+        buttons already point to it)
+     ============================================================ -->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+/* =================================================================
+   EDIT: TOKENS — palette, type, spacing, radii
+   ================================================================= */
+:root{
+  --bg:            #0A0D12;
+  --bg-alt:        #0D1117;
+  --panel:         rgba(255,255,255,0.045);
+  --panel-strong:  rgba(255,255,255,0.07);
+  --border:        rgba(255,255,255,0.09);
+  --border-soft:   rgba(255,255,255,0.06);
+
+  --text-primary:  #EDEFF3;
+  --text-secondary:#9BA5B4;
+  --text-tertiary: #6B7484;
+
+  --copper:        #E8935A;
+  --copper-bright: #FFB37B;
+  --copper-dim:    rgba(232,147,90,0.14);
+
+  --cyan:          #6FE3D6;
+  --cyan-dim:      rgba(111,227,214,0.14);
+
+  --green:         #7FD99A;
+  --green-dim:     rgba(127,217,154,0.14);
+
+  --font-display:  'Sora', 'IBM Plex Sans', sans-serif;
+  --font-body:     'IBM Plex Sans', sans-serif;
+  --font-mono:     'IBM Plex Mono', monospace;
+
+  --radius-lg:     28px;
+  --radius-md:     20px;
+  --radius-sm:     13px;
+  --radius-pill:   999px;
+
+  --container:     1180px;
+  --ease:          cubic-bezier(.22,.61,.36,1);
+}
+
+*,*::before,*::after{ box-sizing:border-box; margin:0; padding:0; }
+html{ scroll-behavior:smooth; }
+@media (prefers-reduced-motion: reduce){
+  html{ scroll-behavior:auto; }
+  *,*::before,*::after{ animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important; }
+}
+
+body{
+  background:var(--bg);
+  color:var(--text-primary);
+  font-family:var(--font-body);
+  font-size:16px;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+
+/* subtle base texture: faint grid, evokes a schematic sheet */
+body::before{
+  content:"";
+  position:fixed; inset:0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+  background-size:56px 56px;
+  mask-image:radial-gradient(ellipse 80% 60% at 50% 0%, black 40%, transparent 80%);
+  pointer-events:none;
+  z-index:0;
+}
+
+img{ max-width:100%; display:block; }
+a{ color:inherit; text-decoration:none; }
+button{ font:inherit; color:inherit; background:none; border:none; cursor:pointer; }
+ul{ list-style:none; }
+
+.container{
+  width:100%;
+  max-width:var(--container);
+  margin:0 auto;
+  padding:0 28px;
+}
+
+h1,h2,h3,h4{ font-family:var(--font-display); font-weight:600; letter-spacing:-0.01em; }
+
+.section-label{
+  display:inline-block;
+  font-family:var(--font-mono);
+  font-size:0.8rem;
+  color:var(--copper-bright);
+  margin-bottom:14px;
+  letter-spacing:0.02em;
+}
+
+.section-title{
+  font-size:clamp(2rem, 3.6vw, 2.7rem);
+  line-height:1.15;
+  margin-bottom:18px;
+  max-width:640px;
+}
+
+.section-sub{
+  color:var(--text-secondary);
+  font-size:1.05rem;
+  max-width:560px;
+  line-height:1.7;
+}
+
+section{ position:relative; z-index:1; padding:clamp(72px, 9vw, 128px) 0; }
+
+/* -----------------------------------------------------------------
+   Buttons
+   ----------------------------------------------------------------- */
+.btn{
+  display:inline-flex;
+  align-items:center;
+  gap:9px;
+  padding:13px 26px;
+  border-radius:var(--radius-pill);
+  font-family:var(--font-body);
+  font-weight:600;
+  font-size:0.95rem;
+  white-space:nowrap;
+  transition:transform 0.35s var(--ease), box-shadow 0.35s var(--ease), background 0.35s var(--ease), border-color .35s var(--ease);
+  cursor:pointer;
+}
+.btn svg{ width:17px; height:17px; flex-shrink:0; }
+
+.btn-primary{
+  background:linear-gradient(135deg, var(--copper-bright), var(--copper) 70%);
+  color:#181008;
+  box-shadow:0 0 0 0 rgba(232,147,90,0);
+}
+.btn-primary:hover{
+  transform:translateY(-2px);
+  box-shadow:0 10px 30px -8px rgba(232,147,90,0.55);
+}
+
+.btn-secondary{
+  background:var(--panel);
+  border:1px solid var(--border);
+  color:var(--text-primary);
+  backdrop-filter:blur(14px);
+}
+.btn-secondary:hover{
+  transform:translateY(-2px);
+  background:var(--panel-strong);
+  border-color:rgba(232,147,90,0.4);
+}
+
+.btn:focus-visible, a:focus-visible, .filter-pill:focus-visible{
+  outline:2px solid var(--copper-bright);
+  outline-offset:3px;
+}
+
+/* -----------------------------------------------------------------
+   Nav
+   ----------------------------------------------------------------- */
+.nav{
+  position:fixed; top:0; left:0; right:0; z-index:100;
+  padding:22px 0;
+  transition:padding .4s var(--ease), background .4s var(--ease), border-color .4s var(--ease);
+  border-bottom:1px solid transparent;
+}
+.nav.scrolled{
+  padding:14px 0;
+  background:rgba(10,13,18,0.72);
+  backdrop-filter:blur(18px) saturate(140%);
+  border-bottom:1px solid var(--border-soft);
+}
+.nav .container{ display:flex; align-items:center; justify-content:space-between; }
+
+.nav-mark{
+  font-family:var(--font-display);
+  font-weight:700;
+  font-size:1.05rem;
+  display:flex; align-items:center; gap:10px;
+}
+.nav-mark .dot{
+  width:9px; height:9px; border-radius:50%;
+  background:var(--copper-bright);
+  box-shadow:0 0 12px 2px rgba(255,179,123,0.7);
+}
+
+.nav-links{ display:flex; align-items:center; gap:34px; }
+.nav-links a{
+  font-size:0.93rem;
+  color:var(--text-secondary);
+  transition:color .25s var(--ease);
+  position:relative;
+}
+.nav-links a::after{
+  content:"";
+  position:absolute; left:0; bottom:-6px;
+  width:0; height:1px;
+  background:var(--copper-bright);
+  transition:width .3s var(--ease);
+}
+.nav-links a:hover{ color:var(--text-primary); }
+.nav-links a:hover::after{ width:100%; }
+
+.nav-cta{ display:flex; align-items:center; gap:14px; }
+.nav-toggle{
+  display:none;
+  width:38px; height:38px;
+  border-radius:10px;
+  border:1px solid var(--border);
+  align-items:center; justify-content:center;
+  background:var(--panel);
+}
+.nav-toggle span, .nav-toggle span::before, .nav-toggle span::after{
+  content:""; display:block; width:16px; height:1.5px; background:var(--text-primary);
+  position:relative; transition:transform .3s var(--ease), opacity .3s var(--ease);
+}
+.nav-toggle span::before{ position:absolute; top:-5px; }
+.nav-toggle span::after{ position:absolute; top:5px; }
+.nav-toggle.open span{ background:transparent; }
+.nav-toggle.open span::before{ transform:translateY(5px) rotate(45deg); }
+.nav-toggle.open span::after{ transform:translateY(-5px) rotate(-45deg); }
+
+/* -----------------------------------------------------------------
+   Hero
+   ----------------------------------------------------------------- */
+.hero{
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  padding-top:120px;
+  position:relative;
+  overflow:hidden;
+}
+.hero .container{
+  display:grid;
+  grid-template-columns:1.05fr 0.95fr;
+  gap:40px;
+  align-items:center;
+}
+.hero-copy{ position:relative; z-index:2; }
+
+.eyebrow{
+  display:inline-flex; align-items:center; gap:10px;
+  font-family:var(--font-mono);
+  font-size:0.85rem;
+  color:var(--text-secondary);
+  padding:8px 16px 8px 12px;
+  border:1px solid var(--border);
+  border-radius:var(--radius-pill);
+  background:var(--panel);
+  margin-bottom:28px;
+}
+.eyebrow .pulse{
+  width:7px; height:7px; border-radius:50%;
+  background:var(--green);
+  box-shadow:0 0 0 0 rgba(127,217,154,.6);
+  animation:pulse-ring 2.4s ease-out infinite;
+}
+@keyframes pulse-ring{
+  0%{ box-shadow:0 0 0 0 rgba(127,217,154,.5); }
+  70%{ box-shadow:0 0 0 8px rgba(127,217,154,0); }
+  100%{ box-shadow:0 0 0 0 rgba(127,217,154,0); }
+}
+
+/* EDIT: NAME — name */
+.hero h1{
+  font-size:clamp(2.7rem, 5.4vw, 4.4rem);
+  line-height:1.05;
+  margin-bottom:20px;
+}
+.hero h1 span{
+  display:block;
+  background:linear-gradient(100deg, var(--copper-bright), var(--cyan) 85%);
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+  font-size:0.4em;
+  font-weight:500;
+  margin-top:14px;
+  letter-spacing:0.01em;
+}
+
+.hero-tagline{
+  color:var(--text-secondary);
+  font-size:1.1rem;
+  max-width:520px;
+  line-height:1.75;
+  margin-bottom:38px;
+}
+
+.hero-actions{ display:flex; flex-wrap:wrap; gap:14px; }
+
+/* Hero circuit visual */
+.hero-visual{
+  position:relative;
+  height:min(560px, 62vw);
+  z-index:1;
+}
+.hero-visual svg{ width:100%; height:100%; overflow:visible; }
+.trace{
+  fill:none;
+  stroke:url(#traceGradient);
+  stroke-width:1.6;
+  stroke-linecap:round;
+  opacity:0.55;
+}
+.trace-pulse{
+  fill:none;
+  stroke:var(--copper-bright);
+  stroke-width:2.4;
+  stroke-linecap:round;
+  stroke-dasharray:10 900;
+  filter:drop-shadow(0 0 6px rgba(255,179,123,0.9));
+  animation:flow 5.5s linear infinite;
+}
+.trace-pulse.alt{ stroke:var(--cyan); filter:drop-shadow(0 0 6px rgba(111,227,214,0.85)); animation-duration:7s; animation-delay:1.2s; }
+.trace-pulse.alt2{ stroke:var(--copper-bright); animation-duration:6.4s; animation-delay:2.6s; }
+@keyframes flow{
+  0%{ stroke-dashoffset:900; opacity:0; }
+  5%{ opacity:1; }
+  90%{ opacity:1; }
+  100%{ stroke-dashoffset:0; opacity:0; }
+}
+.node{ fill:var(--bg-alt); stroke:rgba(255,255,255,0.22); stroke-width:1.4; }
+.node-core{ fill:var(--copper-bright); opacity:0.9; }
+.node-glow{ fill:var(--copper-bright); opacity:0.15; }
+
+.hero-scroll-cue{
+  position:absolute; bottom:36px; left:50%; transform:translateX(-50%);
+  display:flex; flex-direction:column; align-items:center; gap:8px;
+  color:var(--text-tertiary);
+  font-family:var(--font-mono);
+  font-size:0.72rem;
+  z-index:2;
+}
+.hero-scroll-cue .line{
+  width:1px; height:34px;
+  background:linear-gradient(var(--copper-bright), transparent);
+  animation:cue-move 2s ease-in-out infinite;
+}
+@keyframes cue-move{
+  0%,100%{ transform:scaleY(0.6); opacity:0.4; }
+  50%{ transform:scaleY(1); opacity:1; }
+}
+
+/* -----------------------------------------------------------------
+   Reveal on scroll
+   ----------------------------------------------------------------- */
+.reveal{
+  opacity:0;
+  transform:translateY(26px);
+  transition:opacity 0.8s var(--ease), transform 0.8s var(--ease);
+}
+.reveal.is-visible{ opacity:1; transform:translateY(0); }
+.reveal-stagger.is-visible .stagger-item{ opacity:1; transform:translateY(0); }
+.stagger-item{
+  opacity:0; transform:translateY(22px);
+  transition:opacity .6s var(--ease), transform .6s var(--ease);
+}
+.stagger-item:nth-child(1){ transition-delay:0.02s; }
+.stagger-item:nth-child(2){ transition-delay:0.09s; }
+.stagger-item:nth-child(3){ transition-delay:0.16s; }
+.stagger-item:nth-child(4){ transition-delay:0.23s; }
+
+/* -----------------------------------------------------------------
+   Projects
+   ----------------------------------------------------------------- */
+.projects-head{
+  display:flex; flex-wrap:wrap; justify-content:space-between; align-items:flex-end; gap:24px;
+  margin-bottom:44px;
+}
+
+.filters{
+  display:flex; flex-wrap:wrap; gap:10px;
+  margin-bottom:46px;
+}
+.filter-pill{
+  padding:10px 20px;
+  border-radius:var(--radius-pill);
+  border:1px solid var(--border);
+  background:var(--panel);
+  font-size:0.88rem;
+  font-weight:500;
+  color:var(--text-secondary);
+  transition:all .35s var(--ease);
+}
+.filter-pill:hover{ color:var(--text-primary); border-color:rgba(255,255,255,0.22); }
+.filter-pill.active{
+  background:linear-gradient(135deg, var(--copper-bright), var(--copper));
+  color:#181008;
+  border-color:transparent;
+}
+
+.project-grid{
+  display:grid;
+  grid-template-columns:repeat(2, 1fr);
+  gap:26px;
+}
+
+.card{
+  background:linear-gradient(165deg, var(--panel-strong), var(--panel) 60%);
+  border:1px solid var(--border);
+  border-radius:var(--radius-lg);
+  overflow:hidden;
+  backdrop-filter:blur(16px);
+  transition:transform .5s var(--ease), box-shadow .5s var(--ease), border-color .5s var(--ease), opacity .45s var(--ease);
+  display:flex; flex-direction:column;
+}
+.card:hover{
+  transform:translateY(-8px);
+  box-shadow:0 24px 48px -20px rgba(0,0,0,0.55), 0 0 0 1px rgba(232,147,90,0.18);
+  border-color:rgba(232,147,90,0.3);
+}
+.card.filtered-out{
+  opacity:0;
+  transform:scale(0.96);
+  position:absolute;
+  pointer-events:none;
+  height:0; overflow:hidden;
+  margin:0; border:0;
+}
+
+.card-visual{
+  position:relative;
+  height:230px;
+  background:
+    radial-gradient(120% 140% at 15% 0%, rgba(232,147,90,0.16), transparent 55%),
+    radial-gradient(120% 140% at 90% 100%, rgba(111,227,214,0.14), transparent 55%),
+    var(--bg-alt);
+  display:flex; align-items:center; justify-content:center;
+  border-bottom:1px solid var(--border-soft);
+  overflow:hidden;
+}
+.card-visual::before{
+  content:"";
+  position:absolute; inset:0;
+  background-image:linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px);
+  background-size:24px 24px;
+  mask-image:radial-gradient(ellipse 70% 70% at 50% 50%, black 30%, transparent 85%);
+}
+.card-visual svg{ width:96px; height:96px; position:relative; z-index:1; color:var(--copper-bright); opacity:0.9; transition:transform .5s var(--ease); }
+.card:hover .card-visual svg{ transform:scale(1.08) translateY(-3px); }
+.card-visual img{
+  position:absolute; inset:0;
+  width:100%; height:100%;
+  object-fit:cover;
+  transition:transform .6s var(--ease);
+}
+.card:hover .card-visual img{ transform:scale(1.05); }
+.modal-visual img{
+  position:absolute; inset:0;
+  width:100%; height:100%;
+  object-fit:cover;
+  border-radius:var(--radius-lg) var(--radius-lg) 0 0;
+}
+
+.status-badge{
+  position:absolute; top:16px; right:16px;
+  font-family:var(--font-mono);
+  font-size:0.72rem;
+  padding:6px 12px;
+  border-radius:var(--radius-pill);
+  backdrop-filter:blur(10px);
+  border:1px solid transparent;
+  z-index:2;
+}
+.status-complete{ background:var(--green-dim); color:var(--green); border-color:rgba(127,217,154,0.3); }
+.status-progress{ background:var(--copper-dim); color:var(--copper-bright); border-color:rgba(232,147,90,0.3); }
+.status-research{ background:var(--cyan-dim); color:var(--cyan); border-color:rgba(111,227,214,0.3); }
+
+.card-body{ padding:28px 28px 26px; display:flex; flex-direction:column; gap:14px; flex:1; }
+.card-category{
+  font-family:var(--font-mono);
+  font-size:0.76rem;
+  color:var(--text-tertiary);
+}
+.card-title{ font-size:1.3rem; }
+.card-desc{ color:var(--text-secondary); font-size:0.95rem; line-height:1.65; }
+
+.tag-row{ display:flex; flex-wrap:wrap; gap:8px; margin-top:4px; }
+.tag{
+  font-family:var(--font-mono);
+  font-size:0.72rem;
+  padding:5px 11px;
+  border-radius:var(--radius-pill);
+  background:rgba(255,255,255,0.045);
+  border:1px solid var(--border-soft);
+  color:var(--text-secondary);
+}
+
+.card-footer{
+  margin-top:auto;
+  padding-top:8px;
+  display:flex; align-items:center; justify-content:space-between;
+}
+.view-link{
+  display:inline-flex; align-items:center; gap:8px;
+  font-weight:600; font-size:0.92rem;
+  color:var(--copper-bright);
+  transition:gap .3s var(--ease);
+}
+.view-link svg{ width:15px; height:15px; transition:transform .3s var(--ease); }
+.view-link:hover{ gap:12px; }
+.view-link:hover svg{ transform:translateX(2px); }
+
+/* -----------------------------------------------------------------
+   Modal
+   ----------------------------------------------------------------- */
+.modal-overlay{
+  position:fixed; inset:0; z-index:200;
+  background:rgba(6,8,11,0.72);
+  backdrop-filter:blur(10px);
+  display:flex; align-items:center; justify-content:center;
+  padding:24px;
+  opacity:0; pointer-events:none;
+  transition:opacity .4s var(--ease);
+}
+.modal-overlay.open{ opacity:1; pointer-events:auto; }
+
+.modal{
+  width:100%; max-width:680px; max-height:86vh; overflow-y:auto;
+  background:linear-gradient(165deg, #131820, #0D1117);
+  border:1px solid var(--border);
+  border-radius:var(--radius-lg);
+  padding:0;
+  transform:translateY(24px) scale(0.98);
+  transition:transform .45s var(--ease);
+}
+.modal-overlay.open .modal{ transform:translateY(0) scale(1); }
+
+.modal-visual{
+  height:200px;
+  position:relative;
+  background:
+    radial-gradient(120% 140% at 15% 0%, rgba(232,147,90,0.18), transparent 55%),
+    radial-gradient(120% 140% at 90% 100%, rgba(111,227,214,0.16), transparent 55%),
+    var(--bg-alt);
+  display:flex; align-items:center; justify-content:center;
+  border-radius:var(--radius-lg) var(--radius-lg) 0 0;
+  border-bottom:1px solid var(--border-soft);
+}
+.modal-visual svg{ width:76px; height:76px; color:var(--copper-bright); }
+.modal-close{
+  position:absolute; top:16px; right:16px;
+  width:38px; height:38px; border-radius:50%;
+  background:rgba(0,0,0,0.35);
+  border:1px solid var(--border);
+  display:flex; align-items:center; justify-content:center;
+  backdrop-filter:blur(8px);
+  transition:background .3s var(--ease), transform .3s var(--ease);
+}
+.modal-close:hover{ background:rgba(0,0,0,0.55); transform:rotate(90deg); }
+.modal-close svg{ width:16px; height:16px; }
+
+.modal-body{ padding:30px 34px 34px; }
+.modal-body .card-category{ margin-bottom:10px; }
+.modal-body h3{ font-size:1.6rem; margin-bottom:16px; }
+.modal-body p{ color:var(--text-secondary); line-height:1.75; margin-bottom:22px; }
+.modal-body .tag-row{ margin-bottom:26px; }
+.modal-actions{ display:flex; gap:14px; flex-wrap:wrap; }
+
+/* -----------------------------------------------------------------
+   About
+   ----------------------------------------------------------------- */
+.about-grid{
+  display:grid;
+  grid-template-columns:1fr 0.9fr;
+  gap:60px;
+  align-items:start;
+}
+.about-text p{ color:var(--text-secondary); font-size:1.03rem; line-height:1.85; margin-bottom:20px; max-width:520px; }
+.about-text p:last-child{ margin-bottom:0; }
+
+.focus-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:16px;
+}
+.focus-tile{
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:var(--radius-md);
+  padding:24px 22px;
+  transition:transform .4s var(--ease), border-color .4s var(--ease), background .4s var(--ease);
+}
+.focus-tile:hover{ transform:translateY(-4px); border-color:rgba(232,147,90,0.3); background:var(--panel-strong); }
+.focus-tile svg{ width:26px; height:26px; color:var(--copper-bright); margin-bottom:14px; }
+.focus-tile h4{ font-size:1rem; margin-bottom:6px; }
+.focus-tile p{ font-size:0.85rem; color:var(--text-tertiary); line-height:1.55; }
+
+/* -----------------------------------------------------------------
+   Contact
+   ----------------------------------------------------------------- */
+.contact-panel{
+  background:linear-gradient(165deg, var(--panel-strong), var(--panel) 70%);
+  border:1px solid var(--border);
+  border-radius:var(--radius-lg);
+  padding:clamp(40px, 6vw, 68px);
+  text-align:center;
+  position:relative;
+  overflow:hidden;
+}
+.contact-panel::before{
+  content:"";
+  position:absolute; width:480px; height:480px;
+  background:radial-gradient(circle, rgba(232,147,90,0.16), transparent 70%);
+  top:-220px; left:50%; transform:translateX(-50%);
+  pointer-events:none;
+}
+.contact-panel h2{ font-size:clamp(1.8rem, 3.4vw, 2.4rem); margin-bottom:14px; position:relative; }
+.contact-panel > p{ color:var(--text-secondary); max-width:480px; margin:0 auto 36px; position:relative; }
+.contact-actions{
+  display:flex; flex-wrap:wrap; justify-content:center; gap:14px;
+  position:relative;
+}
+
+/* -----------------------------------------------------------------
+   Footer
+   ----------------------------------------------------------------- */
+footer{
+  padding:36px 0 44px;
+  border-top:1px solid var(--border-soft);
+}
+footer .container{
+  display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:16px;
+}
+.footer-note{ font-size:0.85rem; color:var(--text-tertiary); }
+.footer-links{ display:flex; gap:22px; }
+.footer-links a{ font-size:0.85rem; color:var(--text-tertiary); transition:color .3s var(--ease); }
+.footer-links a:hover{ color:var(--text-primary); }
+
+/* -----------------------------------------------------------------
+   Responsive
+   ----------------------------------------------------------------- */
+@media (max-width: 980px){
+  .hero .container{ grid-template-columns:1fr; }
+  .hero-visual{ height:340px; order:-1; opacity:0.85; }
+  .hero{ padding-top:110px; }
+  .about-grid{ grid-template-columns:1fr; gap:40px; }
+  .project-grid{ grid-template-columns:1fr; }
+}
+
+@media (max-width: 720px){
+  .nav-links{
+    position:fixed; top:64px; left:16px; right:16px;
+    background:rgba(13,17,23,0.96);
+    border:1px solid var(--border);
+    border-radius:var(--radius-md);
+    flex-direction:column;
+    align-items:flex-start;
+    padding:22px 22px;
+    gap:18px;
+    backdrop-filter:blur(20px);
+    transform:translateY(-14px);
+    opacity:0; pointer-events:none;
+    transition:transform .35s var(--ease), opacity .35s var(--ease);
+  }
+  .nav-links.open{ transform:translateY(0); opacity:1; pointer-events:auto; }
+  .nav-toggle{ display:flex; }
+  .nav-cta .btn-secondary span{ display:none; }
+  .hero-actions{ flex-direction:column; align-items:stretch; }
+  .hero-actions .btn{ justify-content:center; }
+  .focus-grid{ grid-template-columns:1fr; }
+  .projects-head{ flex-direction:column; align-items:flex-start; }
+  .contact-actions{ flex-direction:column; }
+  .contact-actions .btn{ justify-content:center; }
+}
+</style>
+</head>
+<body>
+
+<!-- ================= NAV ================= -->
+<nav class="nav" id="nav">
+  <div class="container">
+    <a href="#home" class="nav-mark"><span class="dot"></span>L. Ng</a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <div class="nav-cta">
+      <!-- EDIT: HERO — CV link -->
+      <a href="assets/resume.pdf" class="btn btn-secondary" download="Leo-Ng-Resume.pdf"><span>Resume</span></a>
+      <button class="nav-toggle" id="navToggle" aria-label="Toggle menu"><span></span></button>
+    </div>
+  </div>
+</nav>
+
+<!-- ================= HERO ================= -->
+<header class="hero" id="home">
+  <div class="container">
+    <div class="hero-copy">
+      <div class="eyebrow"><span class="pulse"></span>Open to internships &amp; new-grad roles</div>
+
+      <!-- EDIT: HERO — name & subtitle -->
+      <h1>Leo Ng<span>Electrical Engineering + Computer Science</span></h1>
+
+      <p class="hero-tagline">
+        I build the systems where hardware and software have to agree with each other —
+        embedded firmware, custom PCBs, and the software layered on top. I like problems that
+        end with something you can actually hold, plug in, and watch work.
+      </p>
+
+      <div class="hero-actions">
+        <a href="#projects" class="btn btn-primary">
+          View Projects
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+        <!-- EDIT: HERO — GitHub / LinkedIn / CV links -->
+        <a href="https://github.com/Slitre" target="_blank" rel="noopener" class="btn btn-secondary">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.09 3.29 9.4 7.86 10.93.57.1.78-.25.78-.55 0-.27-.01-1.17-.02-2.12-3.2.7-3.88-1.36-3.88-1.36-.52-1.34-1.28-1.7-1.28-1.7-1.04-.72.08-.7.08-.7 1.15.08 1.76 1.19 1.76 1.19 1.03 1.76 2.7 1.25 3.36.96.1-.75.4-1.25.73-1.54-2.56-.29-5.25-1.28-5.25-5.7 0-1.26.45-2.28 1.19-3.09-.12-.29-.52-1.47.11-3.06 0 0 .97-.31 3.18 1.18a11.1 11.1 0 0 1 5.79 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.77.11 3.06.74.81 1.19 1.83 1.19 3.09 0 4.43-2.7 5.4-5.27 5.69.42.36.78 1.07.78 2.16 0 1.56-.02 2.82-.02 3.2 0 .3.21.66.79.55A10.52 10.52 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5z"/></svg>
+          GitHub
+        </a>
+        <a href="https://linkedin.com/in/hei-leong-leo-ng" target="_blank" rel="noopener" class="btn btn-secondary">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.03-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94v5.67H9.36V9h3.41v1.56h.05c.47-.9 1.63-1.85 3.36-1.85 3.6 0 4.27 2.37 4.27 5.45v6.29zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zM7.12 20.45H3.56V9h3.56v11.45z"/></svg>
+          LinkedIn
+        </a>
+      </div>
+    </div>
+
+    <div class="hero-visual" aria-hidden="true">
+      <svg viewBox="0 0 520 520">
+        <defs>
+          <linearGradient id="traceGradient" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#E8935A" stop-opacity="0.9"/>
+            <stop offset="100%" stop-color="#6FE3D6" stop-opacity="0.6"/>
+          </linearGradient>
+        </defs>
+
+        <path class="trace" d="M40 420 L40 300 L120 300 L120 180 L220 180 L220 90 L340 90"/>
+        <path class="trace" d="M480 60 L480 160 L400 160 L400 240 L300 240 L300 340 L180 340 L180 420 L80 420"/>
+        <path class="trace" d="M60 60 L160 60 L160 140 L260 140 L260 220 L420 220 L420 460"/>
+        <path class="trace" d="M460 480 L460 400 L380 400 L380 320 L500 320"/>
+
+        <path class="trace-pulse" d="M40 420 L40 300 L120 300 L120 180 L220 180 L220 90 L340 90"/>
+        <path class="trace-pulse alt" d="M480 60 L480 160 L400 160 L400 240 L300 240 L300 340 L180 340 L180 420 L80 420"/>
+        <path class="trace-pulse alt2" d="M60 60 L160 60 L160 140 L260 140 L260 220 L420 220 L420 460"/>
+
+        <g>
+          <circle class="node-glow" cx="220" cy="90" r="16"/>
+          <circle class="node" cx="220" cy="90" r="6"/>
+          <circle class="node-glow" cx="400" cy="160" r="16"/>
+          <circle class="node" cx="400" cy="160" r="6"/>
+          <circle class="node-glow" cx="180" cy="340" r="16"/>
+          <circle class="node" cx="180" cy="340" r="6"/>
+          <circle class="node-glow" cx="420" cy="220" r="16"/>
+          <circle class="node" cx="420" cy="220" r="6"/>
+          <circle class="node-core" cx="340" cy="90" r="5"/>
+          <circle class="node-core" cx="80" cy="420" r="5"/>
+          <circle class="node-core" cx="500" cy="320" r="5"/>
+        </g>
+      </svg>
+    </div>
+  </div>
+
+  <div class="hero-scroll-cue"><span class="line"></span>SCROLL</div>
+</header>
+
+<!-- ================= PROJECTS ================= -->
+<section id="projects">
+  <div class="container">
+    <div class="projects-head reveal">
+      <div>
+        <span class="section-label">Selected Work</span>
+        <h2 class="section-title">Things I've built, wired up, and debugged at 2am</h2>
+      </div>
+      <p class="section-sub">A mix of finished hardware, in-progress builds, and research
+        that's still on the whiteboard — filter by category or status below.</p>
+    </div>
+
+    <div class="filters reveal" id="filters">
+      <button class="filter-pill active" data-filter="all">All</button>
+      <button class="filter-pill" data-filter="hardware">Hardware</button>
+      <button class="filter-pill" data-filter="software">Software</button>
+      <button class="filter-pill" data-filter="complete">Complete</button>
+      <button class="filter-pill" data-filter="in-progress">In Progress</button>
+      <button class="filter-pill" data-filter="research">Research / Planned</button>
+    </div>
+
+    <div class="project-grid reveal-stagger" id="projectGrid">
+      <!-- Cards injected by JS from the project data below -->
+    </div>
+  </div>
+</section>
+
+<!-- ================= ABOUT ================= -->
+<section id="about">
+  <div class="container about-grid">
+    <div class="about-text reveal">
+      <span class="section-label">About</span>
+      <h2 class="section-title" style="margin-bottom:26px;">Where hardware and software have to meet in the middle</h2>
+      <!-- EDIT: ABOUT — replace with your own background -->
+      <p>My work sits at the intersection of embedded systems, electronics, and the software
+        that runs on top of them. I care about what happens at the boundary — where a sensor's
+        analog signal becomes a firmware interrupt, and where that firmware becomes an
+        interface someone actually uses.</p>
+      <p>I'd rather build a working prototype than a slide deck about one. Most of my projects
+        start with a real, specific problem — a piano student who can't tell if their hand
+        position is right, a phone that fits how someone actually wants to use one — and get
+        solved by whatever combination of circuit design, firmware, and code the problem calls for.</p>
+    </div>
+
+    <div class="focus-grid reveal-stagger">
+      <div class="focus-tile stagger-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="7" y="7" width="10" height="10" rx="1.5"/><path d="M9 2v3M15 2v3M9 19v3M15 19v3M2 9h3M2 15h3M19 9h3M19 15h3"/></svg>
+        <h4>Embedded Systems</h4>
+        <p>Microcontroller firmware, sensor integration, real-time constraints.</p>
+      </div>
+      <div class="focus-tile stagger-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M9 3v18M15 3v18M3 9h18M3 15h18"/></svg>
+        <h4>Electronics &amp; PCB</h4>
+        <p>Schematic capture, board layout, bring-up and debugging.</p>
+      </div>
+      <div class="focus-tile stagger-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M8 9l-5 3 5 3M16 9l5 3-5 3M13 5l-2 14"/></svg>
+        <h4>Software</h4>
+        <p>Application logic, tooling, and interfaces that make hardware usable.</p>
+      </div>
+      <div class="focus-tile stagger-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 1 0 18M3 12h18"/></svg>
+        <h4>Integration</h4>
+        <p>Getting hardware and software to actually agree with each other.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CONTACT ================= -->
+<section id="contact">
+  <div class="container">
+    <div class="contact-panel reveal">
+      <h2>Let's build something</h2>
+      <p>Looking for internship and new-grad opportunities in embedded systems,
+        hardware, or full-stack engineering. Reach out — I reply quickly.</p>
+      <div class="contact-actions">
+        <!-- EDIT: CONTACT — update all links below -->
+        <a href="mailto:leongheileong@gmail.com" class="btn btn-primary">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>
+          Email Me
+        </a>
+        <a href="https://github.com/Slitre" target="_blank" rel="noopener" class="btn btn-secondary">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.09 3.29 9.4 7.86 10.93.57.1.78-.25.78-.55 0-.27-.01-1.17-.02-2.12-3.2.7-3.88-1.36-3.88-1.36-.52-1.34-1.28-1.7-1.28-1.7-1.04-.72.08-.7.08-.7 1.15.08 1.76 1.19 1.76 1.19 1.03 1.76 2.7 1.25 3.36.96.1-.75.4-1.25.73-1.54-2.56-.29-5.25-1.28-5.25-5.7 0-1.26.45-2.28 1.19-3.09-.12-.29-.52-1.47.11-3.06 0 0 .97-.31 3.18 1.18a11.1 11.1 0 0 1 5.79 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.77.11 3.06.74.81 1.19 1.83 1.19 3.09 0 4.43-2.7 5.4-5.27 5.69.42.36.78 1.07.78 2.16 0 1.56-.02 2.82-.02 3.2 0 .3.21.66.79.55A10.52 10.52 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5z"/></svg>
+          GitHub
+        </a>
+        <a href="https://linkedin.com/in/hei-leong-leo-ng" target="_blank" rel="noopener" class="btn btn-secondary">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.03-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94v5.67H9.36V9h3.41v1.56h.05c.47-.9 1.63-1.85 3.36-1.85 3.6 0 4.27 2.37 4.27 5.45v6.29zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zM7.12 20.45H3.56V9h3.56v11.45z"/></svg>
+          LinkedIn
+        </a>
+        <a href="assets/resume.pdf" download="Leo-Ng-Resume.pdf" class="btn btn-secondary">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 21h16"/></svg>
+          Download CV
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <span class="footer-note">© 2026 Leo Ng. Built from scratch, wired by hand.</span>
+    <div class="footer-links">
+      <a href="#home">Back to top</a>
+      <a href="#projects">Projects</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </div>
+</footer>
+
+<!-- ================= MODAL ================= -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal" id="modalContent" role="dialog" aria-modal="true"></div>
+</div>
+
+<script>
+/* =================================================================
+   EDIT: PROJECT DATA — add / remove / edit projects here.
+   filters: any combo of "hardware","software","complete","in-progress","research"
+   icon: one of the inline SVGs defined in ICONS below
+   ================================================================= */
+const ICONS = {
+  chip: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="6" y="6" width="12" height="12" rx="1.5"/><path d="M9 2v4M15 2v4M9 18v4M15 18v4M2 9h4M2 15h4M18 9h4M18 15h4"/></svg>`,
+  phone: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="7" y="2" width="10" height="20" rx="2.5"/><path d="M7 6h10M10 19h4"/></svg>`,
+  code: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M8 6L2 12l6 6M16 6l6 6-6 6M13 3l-2 18"/></svg>`,
+  eye: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3.2"/></svg>`,
+};
+
+const STATUS_META = {
+  complete:    { label:"Complete",           class:"status-complete" },
+  progress:    { label:"In Progress",        class:"status-progress" },
+  research:    { label:"Research / Planned", class:"status-research" },
+};
+
+/* Each project can optionally set "image" to a path like "assets/images/lemat.jpg".
+   If "image" is omitted (or the file doesn't exist), the icon is shown instead —
+   so you can add photos one project at a time without breaking anything. */
+const projects = [
+  {
+    id: "lemat",
+    name: "LEMAT Piano Teaching Aid",
+    status: "complete",
+    category: "Embedded Systems / Hardware",
+    filters: ["hardware","complete"],
+    icon: "chip",
+    image: "assets/images/lemat.jpg",
+    description: "A completed electronic piano teaching aid using time-of-flight sensors and LED guidance to provide interactive feedback for piano learners.",
+    longDescription: "LEMAT tracks finger position over the keys using an array of VL53L1X time-of-flight sensors, then drives a WS2812 LED strip to guide learners to correct hand placement in real time. The whole system runs on an RP2040, with a custom PCB handling sensor multiplexing over I2C and LED driving — designed to sit unobtrusively above the keyboard while a student practices.",
+    tech: ["RP2040","PCB Design","VL53L1X ToF Sensors","I2C","WS2812 LEDs","Embedded Systems"],
+    link: "https://github.com/Slitre/LEMAT"
+  },
+  {
+    id: "flip-phone",
+    name: "Custom Flip Phone",
+    status: "progress",
+    category: "Hardware + Software",
+    filters: ["hardware","software","in-progress"],
+    icon: "phone",
+    image: "assets/images/flip-phone.jpg",
+    description: "A compact Android-based flip phone combining a touchscreen display, physical keypad and custom software interface.",
+    longDescription: "Built around an Orange Pi running embedded Android, this project pairs a MIPI DSI touchscreen with a physical keypad for a hybrid tactile-and-touch interface. The custom launcher and dialer are written in Kotlin with Jetpack Compose, designed around one-handed use and a much smaller, calmer screen than a typical smartphone.",
+    tech: ["Orange Pi","Android","Kotlin","Jetpack Compose","MIPI DSI","Embedded Linux"],
+    link: "#"
+  },
+  {
+    id: "scheduler",
+    name: "Python Scheduling Program",
+    status: "complete",
+    category: "Software",
+    filters: ["software","complete"],
+    icon: "code",
+    image: "assets/images/scheduler.jpg",
+    description: "A Python-based scheduling application designed to automate and organise a roster for Gate Gourmet Japan",
+    longDescription: "A scheduling tool that takes a set of constraints and automatically produces a workable timetable, removing the manual back-and-forth of building one by hand. Built entirely in Python, with a focus on clear scheduling logic that's easy to adapt to new constraint types.",
+    tech: ["Python","Automation","Scheduling Logic"],
+    link: "https://github.com/Slitre/Bakery-Automated-Mechanism"
+  },
+  {
+    id: "wearable-eye",
+    name: "Low-Power Wearable Eye Sensing",
+    status: "research",
+    category: "Thesis / Embedded Systems",
+    filters: ["hardware","research"],
+    icon: "eye",
+    image: "assets/images/wearable-eye.jpg",
+    description: "A thesis project currently in the research and architecture stage, investigating low-power wearable eye sensing and energy-efficient sensing systems.",
+    longDescription: "This thesis work is exploring how to sense eye behaviour continuously on a wearable device without the power budget of conventional camera-based tracking. Currently in the research and system-architecture phase — surveying low-power sensing approaches and sketching the hardware architecture before any board is fabricated.",
+    tech: ["Wearable Sensors","Low-Power Embedded Systems","Hardware Architecture","Research"],
+    link: "#"
+  },
+];
+
+/* ---------------- render project cards ---------------- */
+const grid = document.getElementById("projectGrid");
+
+function handleImageError(imgEl, iconKey){
+  const wrapper = document.createElement("span");
+  wrapper.innerHTML = ICONS[iconKey];
+  imgEl.replaceWith(wrapper.firstElementChild);
+}
+
+function visualHTML(p){
+  // Shows the real photo if "image" is set; falls back to the icon automatically
+  // if that file is missing (e.g. before you've added it yet).
+  if(p.image){
+    return `<img src="${p.image}" alt="${p.name}" loading="lazy"
+              onerror="handleImageError(this,'${p.icon}')">`;
+  }
+  return ICONS[p.icon];
+}
+
+function cardHTML(p){
+  const meta = STATUS_META[p.status];
+  return `
+    <article class="card stagger-item" data-filters="${p.filters.join(' ')}" data-id="${p.id}">
+      <div class="card-visual">
+        ${visualHTML(p)}
+        <span class="status-badge ${meta.class}">${meta.label}</span>
+      </div>
+      <div class="card-body">
+        <span class="card-category">${p.category}</span>
+        <h3 class="card-title">${p.name}</h3>
+        <p class="card-desc">${p.description}</p>
+        <div class="tag-row">
+          ${p.tech.map(t => `<span class="tag">${t}</span>`).join('')}
+        </div>
+        <div class="card-footer">
+          <button class="view-link" data-open="${p.id}">
+            View Project
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </button>
+        </div>
+      </div>
+    </article>`;
+}
+
+grid.innerHTML = projects.map(cardHTML).join('');
+
+/* ---------------- filters ---------------- */
+const filterPills = document.querySelectorAll(".filter-pill");
+const cards = document.querySelectorAll(".card");
+
+filterPills.forEach(pill => {
+  pill.addEventListener("click", () => {
+    filterPills.forEach(p => p.classList.remove("active"));
+    pill.classList.add("active");
+    const f = pill.dataset.filter;
+    cards.forEach(card => {
+      const matches = f === "all" || card.dataset.filters.split(' ').includes(f);
+      card.classList.toggle("filtered-out", !matches);
+    });
+  });
+});
+
+/* ---------------- modal ---------------- */
+const overlay = document.getElementById("modalOverlay");
+const modalContent = document.getElementById("modalContent");
+
+function openModal(id){
+  const p = projects.find(proj => proj.id === id);
+  if(!p) return;
+  const meta = STATUS_META[p.status];
+  modalContent.innerHTML = `
+    <div class="modal-visual">
+      ${visualHTML(p)}
+      <span class="status-badge ${meta.class}">${meta.label}</span>
+      <button class="modal-close" id="modalClose" aria-label="Close">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+    </div>
+    <div class="modal-body">
+      <span class="card-category">${p.category}</span>
+      <h3>${p.name}</h3>
+      <p>${p.longDescription}</p>
+      <div class="tag-row">
+        ${p.tech.map(t => `<span class="tag">${t}</span>`).join('')}
+      </div>
+      <div class="modal-actions">
+        <a href="${p.link}" class="btn btn-primary" target="_blank" rel="noopener">
+          Open Repository
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+      </div>
+    </div>`;
+  overlay.classList.add("open");
+  document.body.style.overflow = "hidden";
+  document.getElementById("modalClose").addEventListener("click", closeModal);
+}
+
+function closeModal(){
+  overlay.classList.remove("open");
+  document.body.style.overflow = "";
+}
+
+grid.addEventListener("click", e => {
+  const btn = e.target.closest("[data-open]");
+  if(btn) openModal(btn.dataset.open);
+});
+overlay.addEventListener("click", e => { if(e.target === overlay) closeModal(); });
+document.addEventListener("keydown", e => { if(e.key === "Escape") closeModal(); });
+
+/* ---------------- nav scroll + mobile toggle ---------------- */
+const nav = document.getElementById("nav");
+window.addEventListener("scroll", () => {
+  nav.classList.toggle("scrolled", window.scrollY > 30);
+}, { passive:true });
+
+const navToggle = document.getElementById("navToggle");
+const navLinks = document.getElementById("navLinks");
+navToggle.addEventListener("click", () => {
+  navToggle.classList.toggle("open");
+  navLinks.classList.toggle("open");
+});
+navLinks.querySelectorAll("a").forEach(a => a.addEventListener("click", () => {
+  navToggle.classList.remove("open");
+  navLinks.classList.remove("open");
+}));
+
+/* ---------------- scroll reveal ---------------- */
+const revealEls = document.querySelectorAll(".reveal, .reveal-stagger");
+const io = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if(entry.isIntersecting){
+      entry.target.classList.add("is-visible");
+      io.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.15, rootMargin: "0px 0px -60px 0px" });
+revealEls.forEach(el => io.observe(el));
+</script>
+</body>
+</html>
